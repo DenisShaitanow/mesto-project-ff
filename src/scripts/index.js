@@ -1,11 +1,14 @@
 
+
+export { buttonRedaction, popupTypeEdit, page, buttonAdd, popupNewCard, popuptypeImage, imageOfpopuptypeImage, placesList, profileTitle, profileJob, nameInput, jobInput };
+
 import { initialCards } from './components/cards.js';
 
 import { openModalWindow, closeModalWindow, addListener } from './components/modal.js';
 
 import {  makeCard, putLikeCard, funcDelBut } from './components/card.js';
 
-import './pages/index.css';
+/*import '../pages/index.css';*/
 
 // @todo: DOM узлы
 
@@ -15,15 +18,12 @@ const profileJob=document.querySelector('.profile__description');
 const nameInput = document.querySelector('.popup__input_type_name');
 const jobInput = document.querySelector('.popup__input_type_description');
 const placesList=document.querySelector('.places__list');
-const placeName=document.querySelector('.popup__input_type_card-name');
-const linkCard=document.querySelector('.popup__input_type_url');
 const buttonRedaction=document.querySelector('.profile__edit-button');
 const popupTypeEdit=document.querySelector('.popup_type_edit');
 const buttonAdd=document.querySelector('.profile__add-button');
 const popupNewCard=document.querySelector('.popup_type_new-card');
 const popuptypeImage=document.querySelector('.popup_type_image');
 const imageOfpopuptypeImage=popuptypeImage.querySelector('.popup__image');
-const captionPopupimage=popuptypeImage.querySelector('.popup__caption');
 const formElementProfile = document.querySelector('.popup_type_edit .popup__form');
 const formElementAdd= document.querySelector('.popup_type_new-card .popup__form');
 
@@ -33,10 +33,11 @@ initialCards.forEach(function(item) {
   const c=makeCard(item['name'], item['link'], showPopupImage, putLikeCard, funcDelBut);
   placesList.append(c);
 });
+addListener();
 
 buttonRedaction.addEventListener('click', showProfileRed); // функция вывода Попап редактирования по кнопке редактировать
 
-formElementProfile.addEventListener('submit', editFormSubmit);  // Функционал редактирования профайла с помощью формы
+formElementProfile.addEventListener('submit', handleFormSubmit);  // Функционал редактирования профайла с помощью формы
 
 buttonAdd.addEventListener('click', showModalAdd);  // функция вывода Попап добавления по кнопке добавить
     
@@ -46,9 +47,8 @@ addListener(popupTypeEdit);
 addListener(popupNewCard);
 addListener(popuptypeImage);
 
+
 function showProfileRed() {
-  nameInput.value=profileTitle.textContent;
-  jobInput.value=profileJob.textContent;
   openModalWindow(popupTypeEdit);
 }
 
@@ -58,15 +58,16 @@ function showModalAdd() {
 
 // функция вывода Попап картинки по клику картинки
 
-function showPopupImage(src, alt, capt) {
+function showPopupImage(src, alt) {
   imageOfpopuptypeImage.src=src;
   imageOfpopuptypeImage.alt=alt;
-  captionPopupimage.textContent=capt;
   openModalWindow(popuptypeImage);
 }
 
+
 // Функция редактирования профайла с помощью формы
-function editFormSubmit(evt) {
+
+function handleFormSubmit(evt) {
   evt.preventDefault(); 
   profileTitle.textContent=nameInput.value;
   profileJob.textContent=jobInput.value;
@@ -74,11 +75,14 @@ function editFormSubmit(evt) {
 }
 
 // Функция добавление новой карточки с помощью формы.
-function addNewCardInForm(evt) {
+function addNewCardInForm(arg) {
   evt.preventDefault(); 
+  const placeName=document.querySelector('.popup__input_type_card-name');
+  const linkCard=document.querySelector('.popup__input_type_url');
   placesList.prepend(makeCard(placeName.value, linkCard.value,  showPopupImage, putLikeCard, funcDelBut));
   closeModalWindow(popupNewCard);
-  formElementAdd.reset();
+  placeName.value = null;
+  linkCard.value = null;
 }
 
 
