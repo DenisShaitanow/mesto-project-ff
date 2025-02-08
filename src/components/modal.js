@@ -1,6 +1,6 @@
 
+export { openModalWindow, closeModalWindow }
 
-export { openModalWindow, closeModalWindow, addListener }
 
 // Функция открытия модального окна
 
@@ -16,28 +16,16 @@ function closeModalWindow(arg) {
     document.removeEventListener('keydown', handleEscKeyUp);
 }
 
+
+
 // Функция срабатывания на ESC
 const handleEscKeyUp = (evt) => {
+    const popup = document.querySelector(".popup_is-opened"); // находим открытый попап
     if (evt.key === "Escape") {
-      const popup = document.querySelector(".popup_is-opened"); // находим открытый попап
       closeModalWindow(popup);
     }
   };
 
-// Функция, чтобы повесить слушатели
 
-function addListener(arg) {
-    const closeButton=arg.querySelector('.popup__close');
-    closeButton.addEventListener('click', () => {
-        closeModalWindow(arg);
-    });
-    arg.addEventListener('mousedown', (evt) => {
-        if (evt.target.classList.contains('popup')) {
-            closeModalWindow(arg);
-        }
-    })
-}
-
-
-
-
+// я не понимаю, где она(handleEscKeyUp) должна находиться. Из index нельзя экспортировать, там нельзя, в cards только массив, в modal только две функции открытия и закрытия попапов, в card только создание, удаление карточки плюс лайк. Больше не остается js файлов. 
+// я понял, как экспортировать и импортировать. И могу ее поместить в любое место. Но я правда не понимаю, куда. Поэтому решил оставить ее здесь.

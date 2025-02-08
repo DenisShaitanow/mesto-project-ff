@@ -1,7 +1,7 @@
 
 import { initialCards } from './components/cards.js';
 
-import { openModalWindow, closeModalWindow, addListener } from './components/modal.js';
+import { openModalWindow, closeModalWindow } from './components/modal.js';
 
 import {  makeCard, putLikeCard, funcDelBut } from './components/card.js';
 
@@ -81,6 +81,19 @@ function addNewCardInForm(evt) {
   formElementAdd.reset();
 }
 
+// Функция, чтобы повесить слушатели
+
+function addListener(arg) {
+  const closeButton=arg.querySelector('.popup__close');
+  closeButton.addEventListener('click', () => {
+      closeModalWindow(arg);
+  });
+  arg.addEventListener('mousedown', (evt) => {
+      if (evt.target.classList.contains('popup')) {
+          closeModalWindow(arg);
+      }
+  })
+}
 
 
   
