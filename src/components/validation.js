@@ -5,7 +5,7 @@ function checkInputValidity(formElement, inputElement, arr) {
     if (inputElement.validity.patternMismatch) {
       // встроенный метод setCustomValidity принимает на вход строку
       // и заменяет ею стандартное сообщение об ошибке
-      inputElement.setCustomValidity("Поле может содержать только латинские и кириллические буквы, знаки дефиса и пробелы.");
+      inputElement.setCustomValidity(inputElement.dataset.errorMessage);
       } else {
           // если передать пустую строку, то будут доступны
           // стандартные браузерные сообщения
