@@ -7,11 +7,45 @@
   background-size: cover;
   background-position: center;
   justify-content: center;
+  z-index: 0;
+  margin: 0 29px 0 0;
 }
 
-.profile__image__hover {
-  opacity: 0.4;
+.profile__image:hover {
   cursor: pointer;
+  z-index: 0;
+}
+
+.profile__image::before {
+  content: '';
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  position: absolute;
+  top: 36;
+  left: 0;
+  z-index: 0;
+  width: 120px;
+  height: 120px;
+  background-color: black;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.profile__image:hover::before {
+  opacity: 0.6;
+}
+
+.profile__image:hover::after {
+  content: '';
+  background-image: url(../../../images/Vector.png);
+  cursor: pointer;
+  inline-size: 26px;
+  block-size: 26px;
+  position: absolute;
+  z-index: 2;
+  left: 50px;
+  top: 82px;
 }
 
 @media screen and (max-width: 740px) {
@@ -25,33 +59,6 @@
     margin-right: 0;
   }
 }
-
-.edit__avatar {
-  width: 120px;
-  height: 120px;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  border-radius: 50%;
-  margin: 0 29px 0 0;
-  display: flex;
-  justify-content: center;
-}
-
-.icon__edit {
-  background-image: url(../../../images/Vector.png);
-  cursor: pointer;
-  inline-size: 26px;
-  block-size: 26px;
-  align-self: center;
-  display: none;
-  position: absolute;
-  left: 50px;
-}
-
-.icon__edit__active {
-  display: block;
-}
-
 
 
 
