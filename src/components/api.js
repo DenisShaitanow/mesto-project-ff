@@ -15,27 +15,23 @@ const getInitialCards = () => {
     headers: {
       authorization: `${config.headers.authorization}`,
     },
-  }).then((response) => {
-    if (response.status === 200) {
-      return response.json();
-    } else {
-      return Promise.reject(`Что-то пошло не так: ${response.status}`);
-    }
-  });
+  }).then(checkResponseStatus);
 };
+
+const checkResponseStatus = (response) => {
+  if (response.status === 200) {
+    return response.json();
+  } else {
+    return Promise.reject(`Что-то пошло не так: ${response.status}`);
+  }
+}
 
 const getUserInfo = () => {
   return fetch(`${config.baseUrl}/users/me`, {
     headers: {
       authorization: `${config.headers.authorization}`,
     },
-  }).then((response) => {
-    if (response.status === 200) {
-      return response.json();
-    } else {
-      return Promise.reject(`Что-то пошло не так: ${response.status}`);
-    }
-  });
+  }).then(checkResponseStatus);
 };
 
 export const updateUserInfo = (nameInput, jobInput) => {
@@ -49,13 +45,7 @@ export const updateUserInfo = (nameInput, jobInput) => {
       name: `${nameInput.value}`,
       about: `${jobInput.value}`,
     }),
-  }).then((res) => {
-    if (res.status === 200) {
-      return res.json();
-    } else {
-      return Promise.reject(`Что-то пошло не так: ${res.status}`);
-    }
-  });
+  }).then(checkResponseStatus);
 };
 
 export const createNewCard = (placeName, linkCard) => {
@@ -69,13 +59,7 @@ export const createNewCard = (placeName, linkCard) => {
       name: `${placeName.value}`,
       link: `${linkCard.value}`,
     }),
-  }).then((res) => {
-    if (res.status === 200) {
-      return res.json();
-    } else {
-      return Promise.reject(`Что-то пошло не так: ${res.status}`);
-    }
-  });
+  }).then(checkResponseStatus);
 };
 
 export const updateUserAvatar = (inputAvatarLink) => {
@@ -88,50 +72,34 @@ export const updateUserAvatar = (inputAvatarLink) => {
     body: JSON.stringify({
       avatar: `${inputAvatarLink.value}`,
     }),
-  }).then((res) => {
-    if (res.status === 200) {
-      return res.json();
-    } else {
-      return Promise.reject(`Что-то пошло не так: ${res.status}`);
-    }
-  });
+  }).then(checkResponseStatus);
 };
 
-export const fetchDeleteCard = (cardId) => {
+export const DeleteCard = (cardId) => {
   return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: "DELETE",
     headers: {
       authorization: `${config.headers.authorization}`,
     },
-  });
+  }).then(checkResponseStatus);
 };
 
-export const fetchLikedCard = (cardId) => {
+export const  removeLike = (cardId) => {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: "DELETE",
     headers: {
       authorization: `${config.headers.authorization}`,
     },
-  }).then((res) => {
-    if (res.status === 200) {
-      return res.json();
-    } else {
-      return Promise.reject(`Что-то пошло не так: ${res.status}`);
-    }
-  });
+  }).then(checkResponseStatus);
 };
 
-export const fetchUnlikedCard = (cardId) => {
+export const addLike = (cardId) => {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: "PUT",
     headers: {
       authorization: `${config.headers.authorization}`,
     },
-  }).then((res) => {
-    if (res.status === 200) {
-      return res.json();
-    } else {
-      return Promise.reject(`Что-то пошло не так: ${res.status}`);
-    }
-  });
+  }).then(checkResponseStatus);
 };
+
+

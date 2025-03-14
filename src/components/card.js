@@ -1,6 +1,6 @@
 export { makeCard, putLikeCard, funcDelBut };
 
-import { fetchDeleteCard, fetchLikedCard, fetchUnlikedCard } from "./api.js";
+import { DeleteCard,  removeLike, addLike } from "./api.js";
 
 // @todo: Функция создания карточки
 
@@ -50,7 +50,7 @@ function makeCard(
 // @todo: Функция удаления карточки
 
 function funcDelBut(cardId, сardElement) {
-  fetchDeleteCard(cardId);
+  DeleteCard(cardId);
   сardElement.remove();
 }
 
@@ -58,21 +58,25 @@ function funcDelBut(cardId, сardElement) {
 
 function putLikeCard(cardId, buttonLike, amountLikes) {
   if (buttonLike.classList.contains("card__like-button_is-active")) {
-    fetchLikedCard(cardId)
+    removeLike(cardId)
       .then((card) => {
         const amountLikeServer = card.likes.length;
         amountLikes.textContent = amountLikeServer;
+        buttonLike.classList.remove("card__like-button_is-active");
       })
       .catch((err) => {
         // Обрабатываем ошибку
         alert(err);
       });
-    buttonLike.classList.remove("card__like-button_is-active");
   } else {
-    fetchUnlikedCard(cardId).then((card) => {
+    addLike(cardId).then((card) => {
       const amountLikeServer = card.likes.length;
       amountLikes.textContent = amountLikeServer;
+      buttonLike.classList.add("card__like-button_is-active");
+    })
+    .catch((err) => {
+      // Обрабатываем ошибку
+      alert(err);
     });
-    buttonLike.classList.add("card__like-button_is-active");
   }
 }

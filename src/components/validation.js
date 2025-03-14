@@ -1,6 +1,6 @@
 export { enableValidation, clearValidation };
 
-function checkInputValidity(formElement, inputElement, arr) {
+function checkInputValidity(formElement, inputElement, arr, hideError) {
   if (inputElement.validity.patternMismatch) {
     // встроенный метод setCustomValidity принимает на вход строку
     // и заменяет ею стандартное сообщение об ошибке
@@ -23,6 +23,10 @@ function checkInputValidity(formElement, inputElement, arr) {
   } else {
     hideInputError(formElement, inputElement, arr);
   }
+
+  if (hideError === true) {
+    hideInputError(formElement, inputElement, arr);
+  } 
 }
 
 // Функция, которая добавляет класс с ошибкой
@@ -94,10 +98,10 @@ function enableValidation(arr) {
 
 // Функция обнуления поля ошибок при закрытии модального окна
 
-function clearValidation(formElement, arr) {
+function clearValidation(formElement, arr, hideError="false") {
   const inputList = Array.from(formElement.querySelectorAll(arr.inputSelector));
   toggleButtonState(formElement, inputList, arr);
   inputList.forEach((inputElement) => {
-    checkInputValidity(formElement, inputElement, arr);
+    checkInputValidity(formElement, inputElement, arr, hideError);
   });
 }
