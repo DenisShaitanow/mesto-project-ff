@@ -16,7 +16,7 @@ import "./pages/index.css";
 // @todo: DOM узлы
 
 const profileImage = document.querySelector(".profile__image");
-const editAvatarIcon = document.querySelector(".edit__avatar");
+const editAvatarIcon = document.querySelector(".profile__image");
 const profileTitle = document.querySelector(".profile__title");
 const profileJob = document.querySelector(".profile__description");
 const nameInput = document.querySelector(".popup__input_type_name");
@@ -75,7 +75,7 @@ getInfo()
       if (card.likes.some((like) => like._id === userId)) {
         likeIsLiked = true;
       }
-      const c = makeCard(
+      const card_unit = makeCard(
         card.name,
         card.link,
         showPopupImage,
@@ -87,7 +87,7 @@ getInfo()
         userId,
         likeIsLiked
       );
-      placesList.append(c);
+      placesList.append(card_unit);
     });
 
     // Настраиваем профиль пользователя
@@ -126,7 +126,6 @@ function showProfileRed() {
 
 function showModalAdd() {
   openModalWindow(popupNewCard);
-  clearValidation(formElementAdd, settingsValidation);
 }
 
 // функция вывода Попап картинки по клику картинки
@@ -143,17 +142,18 @@ function editFormSubmit(evt) {
   const safeButton = popupTypeEdit.querySelector(
     `${settingsValidation.submitButtonSelector}`
   );
-  safeButton.textContent = "сохранение...";
+  safeButton.textContent = "Сохранение...";
   updateUserInfo(nameInput, jobInput)
     .then((data) => {
       profileTitle.textContent = data.name;
       profileJob.textContent = data.about;
-      safeButton.textContent = "Сохранить";
+      /*safeButton.textContent = "Сохранить";*/
       closeModalWindow(popupTypeEdit);
     })
     .catch((err) => {
       // Обрабатываем ошибку
       alert(err);
+    }).finally(() => {
       // Возвращаем первоначальный текст кнопки
       safeButton.textContent = "Сохранить";
     });
@@ -165,7 +165,7 @@ function addNewCardInForm(evt) {
   const safeButton = popupNewCard.querySelector(
     `${settingsValidation.submitButtonSelector}`
   );
-  safeButton.textContent = "сохранение...";
+  safeButton.textContent = "Сохранение...";
   createNewCard(placeName, linkCard)
     .then((card) => {
       const cardId = card._id;
@@ -188,10 +188,12 @@ function addNewCardInForm(evt) {
       safeButton.textContent = "Сохранить";
       closeModalWindow(popupNewCard);
       formElementAdd.reset();
+      clearValidation(formElementAdd, settingsValidation, true);
     })
     .catch((err) => {
       // Обрабатываем ошибку
       alert(err);
+    }).finally(() => {
       // Возвращаем первоначальный текст кнопки
       safeButton.textContent = "Сохранить";
     });
@@ -212,24 +214,10 @@ function addListener(arg) {
 }
 
 // редактирование аватара
-
-editAvatarIcon.addEventListener("mouseover", viewEditAvatar);
-editAvatarIcon.addEventListener("mouseout", hideEditAvatar);
 editAvatarIcon.addEventListener("click", openPopupAvatar);
-
-function viewEditAvatar() {
-  editAvatarPen.classList.add("icon__edit__active");
-  profileImage.classList.add("profile__image__hover");
-}
-
-function hideEditAvatar() {
-  editAvatarPen.classList.remove("icon__edit__active");
-  profileImage.classList.remove("profile__image__hover");
-}
 
 function openPopupAvatar() {
   openModalWindow(popupNewAvatar);
-  clearValidation(formElementAvatar, settingsValidation);
 }
 
 // Функция редактирования аватара с помощью формы
@@ -240,7 +228,7 @@ function makeNewAvatarInForm(evt) {
   const safeButton = popupNewAvatar.querySelector(
     `${settingsValidation.submitButtonSelector}`
   );
-  safeButton.textContent = "сохранение...";
+  safeButton.textContent = "Сохранение...";
   updateUserAvatar(inputAvatarLink)
     .then((user) => {
       profileImage.setAttribute(
@@ -250,10 +238,12 @@ function makeNewAvatarInForm(evt) {
       safeButton.textContent = "Сохранить";
       closeModalWindow(popupNewAvatar);
       formElementAvatar.reset();
+      clearValidation(formElementAvatar, settingsValidation, true);
     })
     .catch((err) => {
       // Обрабатываем ошибку
       alert(err);
+    }).finally(() => {
       // Возвращаем первоначальный текст кнопки
       safeButton.textContent = "Сохранить";
     });
